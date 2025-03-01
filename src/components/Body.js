@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import RestaurantCard, { withPromotedLabel }from './RestaurantCard';
+import { useEffect, useState, useContext } from 'react';
+import RestaurantCard from './RestaurantCard';
 import Shimmer from './ShimmerNew';
 import useOnlineStatus from '../utils/useOnlineStatus';
+import UserContext from '../utils/UserContext';
 
 
 const Body = () => {
@@ -16,7 +17,7 @@ const Body = () => {
   const [searchText, setSearchText] = useState('');
 
 
-  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+  // const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   // * Whenever a state variable updates or changes, react triggers a reconciliation cycle(re-renders the component)
   console.log('Body rendered');
@@ -51,6 +52,8 @@ const Body = () => {
         Hey! You are offline. Please check your internet connection.
       </h1>
     );
+
+  const{loggedInUser,setUserName} = useContext(UserContext);
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -87,21 +90,28 @@ const Body = () => {
             Search
           </button>
         </div>
-        <div className="m-4 p-4">
+        <div className="m-4 p-4 flex items-center">
           <button
             className="filter-btn bg-gray-100 px-4 py-2 rounded-lg "
             onClick={() => {
-              // * Filter logic
+            //  filterLogic
               const filteredList = listOfRestaurants.filter(
-                (res) => res.info.avgRating > 4
+                (res) => res.info.avgRating > 4.3
               );
 
-              setListOfRestaurants(filteredList);
+              setFilteredRestaurant(filteredList);
               console.log(filteredList);
             }}
           >
             Top Rated Restaurants
           </button>
+        </div>
+        <div className="m-4 p-4 flex items-center">
+          <label>user:</label>
+          <input className="border border-black p-2 "
+           value = {loggedInUser}
+           onChange={(e)=>setUserName(e.target.value)}
+          />  
         </div>
       </div>
       <div className="res-container flex flex-wrap pl-20 ">

@@ -21,26 +21,25 @@ const RestaurantMenu = ()=>{
     console.log(resInfo?.cards?.[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
 
     const categories = resInfo?.cards?.[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-        (c)=>c.card?.card?.["@type"]===
-       "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+        (c) => c.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
 
     const handleToggle = (index) => {
         setShowIndex(showIndex === index ? null : index);
-      };
+    };
 
     return(
-        <div className="menu text-center">
-            <h1 className="font-bold text-2xl my-8">{name}</h1> 
-            <p className="font-bold text-lg text-slate-400">
+        <div className="menu text-center p-4 md:p-8 lg:p-12">
+            <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl my-8">{name}</h1> 
+            <p className="font-bold text-lg md:text-xl lg:text-2xl text-slate-400">
                 {cuisines.join(", ")} - {costForTwoMessage}
             </p>
-            {/* accordian design */}
+            {/* accordion design */}
             {categories.map((category, index)=> (
                 <RestaurantCategory
                   key={category?.card?.card.title}
                   data = {category?.card?.card}
-                  showItems = { index === showIndex ? true: false}
+                  showItems = { index === showIndex }
                   setShowIndex= {()=> handleToggle(index)}
                   />
                 ))}
